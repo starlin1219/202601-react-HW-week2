@@ -27,15 +27,13 @@ export default function AdminLayout() {
       const res = await axios.post(`${API_BASE}/api/user/check`);
       // console.log(res.data);
 
-      const isLogin = res.data?.success;
+      setIsAuth(res.data?.success);
 
-      setIsAuth(isLogin);
-
-      if (isLogin && isOnLoginPage) {
+      if (isAuth && isOnLoginPage) {
         navigate("/products", { replace: true });
       }
 
-      if (!isLogin && !isOnLoginPage) {
+      if (!isAuth && !isOnLoginPage) {
         navigate("/", { replace: true });
       }
       // eslint-disable-next-line no-unused-vars
@@ -48,10 +46,9 @@ export default function AdminLayout() {
       }
     }
   };
-
   useEffect(() => {
     checkLogin();
-  }, [location.pathname, navigate]);
+  }, [location.pathname, navigate, isAuth]);
 
   return (
     <>

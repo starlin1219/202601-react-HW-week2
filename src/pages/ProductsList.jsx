@@ -96,7 +96,7 @@ export default function ProductsList() {
                         key={index}
                         src={url}
                         style={{ height: "100px", width: "100px" }}
-                        className="card-img-top product-image"
+                        className="product-image"
                       />
                     ))}
                   </div>
