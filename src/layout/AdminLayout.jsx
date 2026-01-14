@@ -52,7 +52,7 @@ export default function AdminLayout() {
 
   return (
     <>
-      <AdminHeader />
+      <AdminHeader isAuth={isAuth} setIsAuth={setIsAuth} />
       <Outlet context={{ setIsAuth }} />
     </>
   );

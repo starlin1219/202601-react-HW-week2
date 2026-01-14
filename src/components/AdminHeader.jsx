@@ -1,6 +1,23 @@
-import { Link } from "react-router";
+import axios from "axios";
+import { Link, useNavigate } from "react-router";
 
-export default function AdminHeader() {
+// API 設定
+const API_BASE = import.meta.env.VITE_API_BASE;
+const API_PATH = import.meta.env.VITE_API_PATH;
+
+export default function AdminHeader({ isAuth, setIsAuth }) {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post(`${API_BASE}/logout`);
+      setIsAuth(res.data?.success || false);
+      navigate("/", { replace: true });
+    } catch (error) {
+      alert(error.response?.data?.message);
+    }
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -30,9 +47,19 @@ export default function AdminHeader() {
                 </Link>
               </li>
             </ul>
-            <Link to="/" className="btn btn-outline-primary">
-              登入
-            </Link>
+            {isAuth ? (
+              <button
+                type="button"
+                className="btn btn-outline-primary"
+                onClick={handleLogout}
+              >
+                登出
+              </button>
+            ) : (
+              <Link to="/" className="btn btn-outline-primary">
+                登入
+              </Link>
+            )}
           </div>
         </div>
       </nav>
