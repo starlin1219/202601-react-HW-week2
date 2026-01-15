@@ -1,3 +1,9 @@
+.login {
+  max-width: 600px;
+  height: calc(100vh - 56px);
+  padding-top: 100px;
+}
+
 .product-image {
   height: 600px;
   object-fit: cover;

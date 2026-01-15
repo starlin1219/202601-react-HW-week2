@@ -45,36 +45,44 @@ export default function Login() {
 
   return (
     <>
-      <div className="container py-5">
-        <h1>請先登入</h1>
-        <form onSubmit={(e) => handleLogin(e)}>
-          <div className="form-floating mb-3">
-            <input
-              type="email"
-              className="form-control"
-              name="username"
-              value={formData.username}
-              placeholder="name@example.com"
-              onChange={handleInputChange}
-            />
-            <label htmlFor="username">Email address</label>
+      <section className="bg-primary-subtle">
+        <div className="container">
+          <div className="login mx-auto">
+            <div className="card p-4">
+              <div className="card-body">
+                <h1>請先登入</h1>
+                <form onSubmit={(e) => handleLogin(e)}>
+                  <div className="form-floating mb-3">
+                    <input
+                      type="email"
+                      className="form-control"
+                      name="username"
+                      value={formData.username}
+                      placeholder="name@example.com"
+                      onChange={handleInputChange}
+                    />
+                    <label htmlFor="username">Email address</label>
+                  </div>
+                  <div className="form-floating mb-3">
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="password"
+                      value={formData.password}
+                      placeholder="Password"
+                      onChange={handleInputChange}
+                    />
+                    <label htmlFor="password">Password</label>
+                  </div>
+                  <button type="submit" className="btn btn-primary w-100">
+                    登入
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
-          <div className="form-floating mb-3">
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              value={formData.password}
-              placeholder="Password"
-              onChange={handleInputChange}
-            />
-            <label htmlFor="password">Password</label>
-          </div>
-          <button type="submit" className="btn btn-primary w-100">
-            登入
-          </button>
-        </form>
-      </div>
+        </div>
+      </section>
     </>
   );
 }
