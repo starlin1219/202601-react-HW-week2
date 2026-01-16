@@ -10,8 +10,8 @@ export default function AdminHeader({ isAuth, setIsAuth }) {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post(`${API_BASE}/logout`);
-      setIsAuth(res.data?.success || false);
+      await axios.post(`${API_BASE}/logout`);
+      setIsAuth(false);
       document.cookie = "hexToken=; Max-Age=0;";
       navigate("/", { replace: true });
     } catch (error) {

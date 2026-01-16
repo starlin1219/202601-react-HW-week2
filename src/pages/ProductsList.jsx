@@ -14,19 +14,12 @@ export default function ProductsList() {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const token = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("hexToken="))
-          ?.split("=")[1];
-
-        axios.defaults.headers.common["Authorization"] = token;
-
         const res = await axios.get(
           `${API_BASE}/api/${API_PATH}/admin/products`
         );
         setProducts(res.data.products);
-        // console.log(products);
       } catch (error) {
+        // console.log("取得產品失敗");
         alert(error.response?.data.message || "取得產品失敗");
       }
     };
@@ -91,7 +84,7 @@ export default function ProductsList() {
                   </p>
                   <h4 className="card-title">更多圖片</h4>
                   <div className="d-flex flex-wrap gap-2">
-                    {tempProduct.imagesUrl.map((url, index) => (
+                    {tempProduct.imagesUrl?.map((url, index) => (
                       <img
                         key={index}
                         src={url}

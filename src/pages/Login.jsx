@@ -17,7 +17,6 @@ export default function Login() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    // console.log(name, value);
 
     setFormData((preData) => ({
       ...preData,
@@ -29,7 +28,6 @@ export default function Login() {
     e.preventDefault();
     try {
       const res = await axios.post(`${API_BASE}/admin/signin`, formData);
-      // console.log(res.data);
 
       const { token, expired } = res.data;
       document.cookie = `hexToken=${token};expires=${new Date(expired)}`;

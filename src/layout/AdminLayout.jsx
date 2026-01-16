@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import axios from "axios";
 import AdminHeader from "../components/AdminHeader";
@@ -13,7 +13,7 @@ export default function AdminLayout() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const checkLogin = async () => {
+  const checkLogin = useCallback(async () => {
     const isOnLoginPage = location.pathname === "/";
 
     try {
@@ -25,30 +25,34 @@ export default function AdminLayout() {
       axios.defaults.headers.common["Authorization"] = token;
 
       const res = await axios.post(`${API_BASE}/api/user/check`);
-      // console.log(res.data);
+      const success = res.data?.success;
 
-      setIsAuth(res.data?.success);
+      setIsAuth(success);
 
-      if (isAuth && isOnLoginPage) {
+      if (success && isOnLoginPage) {
         navigate("/products", { replace: true });
       }
 
-      if (!isAuth && !isOnLoginPage) {
+      if (!success && !isOnLoginPage) {
         navigate("/", { replace: true });
       }
-      // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      // alert(error.response?.data?.message);
+      alert(error.response?.data?.message);
+      // console.log("驗證失敗");
+
       setIsAuth(false);
 
       if (!isOnLoginPage) {
         navigate("/", { replace: true });
       }
     }
-  };
+  }, [location.pathname, navigate]);
+
   useEffect(() => {
-    checkLogin();
-  }, [location.pathname, navigate, isAuth]);
+    (async () => {
+      await checkLogin();
+    })();
+  }, [checkLogin]);
 
   return (
     <>
