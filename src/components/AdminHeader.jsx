@@ -1,19 +1,24 @@
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
+import { useAuth } from "../contexts/AuthContext";
 
 // API 設定
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
-export default function AdminHeader({ isAuth, setIsAuth }) {
+export default function AdminHeader() {
   const navigate = useNavigate();
+  const { isAuth, setIsAuth } = useAuth();
 
   const handleLogout = async () => {
     try {
       await axios.post(`${API_BASE}/logout`);
       setIsAuth(false);
+
       document.cookie = "hexToken=; Max-Age=0;";
-      navigate("/", { replace: true });
+      delete axios.defaults.headers.common["Authorization"];
+
+      navigate("/login", { replace: true });
     } catch (error) {
       alert(error.response?.data?.message);
     }
@@ -43,7 +48,7 @@ export default function AdminHeader({ isAuth, setIsAuth }) {
           >
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link to="/products" className="nav-link">
+                <Link to="/admin/products" className="nav-link">
                   產品列表
                 </Link>
               </li>
@@ -57,7 +62,7 @@ export default function AdminHeader({ isAuth, setIsAuth }) {
                 登出
               </button>
             ) : (
-              <Link to="/" className="btn btn-outline-primary">
+              <Link to="/login" className="btn btn-outline-primary">
                 登入
               </Link>
             )}

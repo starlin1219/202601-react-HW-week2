@@ -1,14 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate, useOutletContext } from "react-router";
+import { useNavigate } from "react-router";
+import { useAuth } from "../contexts/AuthContext";
 
 // API 設定
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function Login() {
-  const { setIsAuth } = useOutletContext();
   const navigate = useNavigate();
+  const { setIsAuth } = useAuth();
 
   const [formData, setFormData] = useState({
     username: "ying@gmail.com",
@@ -34,7 +35,7 @@ export default function Login() {
       axios.defaults.headers.common["Authorization"] = token;
 
       setIsAuth(true);
-      navigate("/products", { replace: true });
+      navigate("/admin/products", { replace: true });
     } catch (error) {
       setIsAuth(false);
       alert(error.response?.data?.message || "登入失敗");
